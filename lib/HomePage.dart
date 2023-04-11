@@ -1,12 +1,47 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  double result = 0;
+  var formKey = GlobalKey<FormState>();
+  var txt1 = TextEditingController();
+  var txt2 = TextEditingController();
+  void penjumlahan() {
+    setState(() {
+      double hasil = double.parse(txt1.text) + double.parse(txt2.text);
+      result = hasil;
+    });
+  }
+
+  void pengurangan() {
+    setState(() {
+      double hasil = double.parse(txt1.text) - double.parse(txt2.text);
+      result = hasil;
+    });
+  }
+
+  void perkalian() {
+    setState(() {
+      double hasil = double.parse(txt1.text) * double.parse(txt2.text);
+      result = hasil;
+    });
+  }
+
+  void pembagian() {
+    setState(() {
+      double hasil = double.parse(txt1.text) / double.parse(txt2.text);
+      result = hasil;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final lebar = MediaQuery.of(context).size.width;
-    final tinggi = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFF4F1BB),
@@ -25,21 +60,23 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 59),
-            teksKu('RESULT: 0'),
-            SizedBox(height: 43),
-            textFieldKu('ENTER FIRST NUMBER'),
-            SizedBox(height: 42),
-            textFieldKu('ENTER SECOND NUMBER'),
-            SizedBox(height: 59),
-            tombolKu(() {}, 'ADD'),
-            tombolKu(() {}, 'SUBSTRACT'),
-            tombolKu(() {}, 'MULTIPLY'),
-            tombolKu(() {}, 'DIVIDE'),
-          ],
+        body: Form(
+          key: formKey,
+          child: ListView(
+            children: [
+              SizedBox(height: 59),
+              teksKu('RESULT: $result'),
+              SizedBox(height: 43),
+              textFieldKu('ENTER FIRST NUMBER', txt1),
+              SizedBox(height: 42),
+              textFieldKu('ENTER SECOND NUMBER', txt2),
+              SizedBox(height: 59),
+              tombolKu(penjumlahan, 'ADD'),
+              tombolKu(pengurangan, 'SUBSTRACT'),
+              tombolKu(perkalian, 'MULTIPLY'),
+              tombolKu(pembagian, 'DIVIDE'),
+            ],
+          ),
         ),
       ),
     );
@@ -55,15 +92,16 @@ Widget teksKu(String data) {
   );
 }
 
-Widget textFieldKu(String data) {
+Widget textFieldKu(String data, TextEditingController controller) {
   return Container(
     margin: EdgeInsets.only(right: 48, left: 48),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       color: Color(0xFFD9D9D9),
     ),
-    child: TextField(
+    child: TextFormField(
       keyboardType: TextInputType.number,
+      controller: controller,
       decoration: InputDecoration(
         labelText: data,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
