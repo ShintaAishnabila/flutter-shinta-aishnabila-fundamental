@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'HomePage.dart';
+import 'Loading.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const HomePage(),
+        '/': (context) => const Loading(),
+        '/home': (context) => const HomePage(),
       },
     );
   }
